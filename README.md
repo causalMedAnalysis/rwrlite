@@ -23,7 +23,7 @@ rwrlite depvar lvars, dvar(varname) mvar(varname) d(#) dstar(#) m(#) [options]
 - `cvars(varlist)`: Baseline covariates to include in the analysis.
 - `cat(varlist)`: Specifies which variables should be handled as categorical.
 - `nointer`: Excludes treatment-mediator interaction from the outcome model.
-- `cxa`: Includes treatment-covariate interactions in all models.
+- `cxd`: Includes treatment-covariate interactions in all models.
 - `cxm`: Includes mediator-covariate interactions in the outcome model.
 - `lxm`: Includes mediator-posttreatment interactions in the outcome model.
 - `reps(integer)`: Number of bootstrap replications (default is 200).
