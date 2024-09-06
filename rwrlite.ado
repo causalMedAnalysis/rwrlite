@@ -13,7 +13,7 @@ program define rwrlite, eclass
 		d(real) /// 
 		dstar(real) /// 
 		m(real) /// 
-		[cvar(varlist numeric)] /// 
+		[cvars(varlist numeric)] /// 
 		[CAT(varlist numeric)] ///
 		[cxd] ///
 		[cxm] ///
@@ -44,7 +44,7 @@ program define rwrlite, eclass
 	local NIE "e(`r(NIEtype)')"
 	local ATE "e(`r(ATEtype)')"
 			
-	type_text , mreg(`mreg') lvar(`lvar') cvar(`cvar')	
+	type_text , mreg(`mreg') lvar(`lvar') cvar(`cvars')	
 	
 	if ("`saving'" != "") {
 	
@@ -52,7 +52,7 @@ program define rwrlite, eclass
 			reps(`reps') strata(`strata') cluster(`cluster') level(`level') `seed' ///
 			saving(`saving', replace) noheader notable: ///
 			rwrlitebs `varlist' if `touse' [`weight' `exp'], dvar(`dvar') mvar(`mvar') d(`d') dstar(`dstar') ///
-			m(`m') cvar(`cvar') cat(`cat') `cxd' `cxm' `lxm' `nointeraction'
+			m(`m') cvar(`cvars') cat(`cat') `cxd' `cxm' `lxm' `nointeraction'
 		}
 	
 	if ("`saving'" == "") {
@@ -61,12 +61,12 @@ program define rwrlite, eclass
 			reps(`reps') strata(`strata') cluster(`cluster') level(`level') `seed' ///
 			noheader notable: ///
 			rwrlitebs `varlist' if `touse' [`weight' `exp'], dvar(`dvar') mvar(`mvar') d(`d') dstar(`dstar') ///
-			m(`m') cvar(`cvar') cat(`cat') `cxd' `cxm' `lxm' `nointeraction'
+			m(`m') cvar(`cvars') cat(`cat') `cxd' `cxm' `lxm' `nointeraction'
 		}
 		
 	estat bootstrap, p noheader
 
-	type_text , mreg(`mreg') lvar(`lvar') cvar(`cvar')
+	type_text , mreg(`mreg') lvar(`lvar') cvar(`cvars')
 	
 	local CDE_col = strpos("`r(NDEtext)'", ":") + 2
 	di as txt "CDE:" _column(`CDE_col') "controlled direct effect at m=`m'"
@@ -78,7 +78,7 @@ program define rwrlite, eclass
 	
 	if ("`detail'" != "") {		
 		rwrlitebs `varlist' if `touse' [`weight' `exp'], dvar(`dvar') mvar(`mvar') d(`d') dstar(`dstar') ///
-			m(`m') cvar(`cvar') cat(`cat') `cxd' `cxm' `lxm' `nointeraction'
+			m(`m') cvar(`cvars') cat(`cat') `cxd' `cxm' `lxm' `nointeraction'
 		}
 
 end

@@ -15,21 +15,16 @@ this command a lite version of {helpb rwrmed}{p_end}
 
 
 {p 8 14 2}
-{cmd:rwrmed} 
-{depvar}
-[{help indepvars:lvars}]
-{ifin} 
-[{it:{help weight:pweight}}] 
-{cmd:,}
+{cmd:rwrmed} {depvar} [{help indepvars:lvars}] {ifin} [{it:{help weight:pweight}}] {cmd:,}
 {cmdab:dvar(}{it:{help varname:varname}}{cmd:)}
 {cmdab:mvar(}{it:{help varname:varname}}{cmd:)}
 {opt d(#)}
 {opt dstar(#)}
 {opt m(#)}
-[{cmdab:cvar(}{it:{help varlist:varlist}}{cmd:)}
+[{cmdab:cvars(}{it:{help varlist:varlist}}{cmd:)}
 {cmdab:cat(}{it:{help varlist:varlist}}{cmd:)}
 {opt nointer:action}
-{opt cxa}
+{opt cxd}
 {opt cxm}
 {opt lxm}
 {opt reps(integer)} 
@@ -42,8 +37,6 @@ this command a lite version of {helpb rwrmed}{p_end}
 
 {pstd}
 {it:lvars} are post-treatment covariates (i.e., potential exposure-induced confounders)
-
-
 
 {synoptset 32 tabbed}{...}
 {synopthdr}
@@ -67,7 +60,7 @@ is the same at all levels of the mediator and thus an arbitary value can be chos
 
 {synopt:{opt nointer:action}}specify that a treatment-mediator interaction should not be included in the outcome model  {p_end}
 
-{synopt:{opt cxa}}specify that treatment-covariate interactions should be included in the mediator and outcome models  {p_end}
+{synopt:{opt cxd}}specify that treatment-covariate interactions should be included in the mediator and outcome models  {p_end}
 
 {synopt:{opt cxm}}specify that mediator-covariate interactions should be included in the outcome model  {p_end}
 
