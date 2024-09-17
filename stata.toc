@@ -13,13 +13,7 @@ package ^rwrlite^ from https://github.com/causalMedAnalysis/rwrlite
 
 ^DESCRIPTION/AUTHOR(S)^
       
-rwrlite performs causal mediation analysis using regression-with-residuals. The command is lite version of {helpb rwrmed},
-which strips out some functionality for simplicity. Using {helpb gsem}, two models are estimated: a 
-model for the mediator conditional on treatment and the baseline covariates (if specified) after centering them 
-around their sample means, and a model for the outcome conditional on treatment, the mediator, the baseline covariates 
-(if specified) after centering them around their sample means, and the post-treatment covariates (if specified) after 
-centering them around their estimated conditional means given all prior variables. Thus {cmd:rwrlite} allows for the presence of treatment-induced confounders, 
-which are post-treatment covariates that confound the mediator-outcome relationship.
+rwrlite performs causal mediation analysis using regression-with-residuals. The command is lite version of {helpb rwrmed}.
 
 Requires: Stata version 14
       

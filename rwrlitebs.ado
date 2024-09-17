@@ -1,4 +1,8 @@
-*! 1.0.0 04Apr2020  // Ariel Linden, Chuck Huber, Geoffrey T. Wodtke 
+*!TITLE: RWRLITE - causal mediation analysis using regression-with-residuals
+*!AUTHOR: Geoffrey T. Wodtke, Department of Sociology, University of Chicago
+*!
+*! version 0.1
+*!
 
 capture program drop rwrlitebs
 program define rwrlitebs, eclass

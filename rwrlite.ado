@@ -1,6 +1,8 @@
-*! 1.0.0 06Jun2020  // Ariel Linden, Chuck Huber, Geoffrey T. Wodtke
-*! 1.0.1 26Mar2021  // Ariel Linden, Chuck Huber, Geoffrey T. Wodtke
-                    // Chuck updated updated the output with SMCL
+*!TITLE: RWRLITE - causal mediation analysis using regression-with-residuals
+*!AUTHOR: Geoffrey T. Wodtke, Department of Sociology, University of Chicago
+*!
+*! version 0.1
+*!
  
 
 program define rwrlite, eclass
@@ -13,26 +15,20 @@ program define rwrlite, eclass
 		d(real) /// 
 		dstar(real) /// 
 		m(real) /// 
-		[cvars(varlist numeric)] /// 
-		[CAT(varlist numeric)] ///
-		[cxd] ///
-		[cxm] ///
-		[lxm] ///
-		[NOINTERaction] ///
-		[reps(integer 200)] ///
-		[strata(varname numeric)] ///
-		[cluster(varname numeric)] ///
-		[level(cilevel)] ///
-		[seed(passthru)] ///
-		[saving(string)] ///
-		[detail]
+		[cvars(varlist numeric) /// 
+		CAT(varlist numeric) ///
+		cxd ///
+		cxm ///
+		lxm ///
+		NOINTERaction ///
+		detail * ]
 							
 	qui {
 		marksample touse
 		count if `touse'
 		if r(N) == 0 error 2000
 		local N = r(N)
-		}
+	}
 
 	gettoken yvar lvar : varlist
 
@@ -45,24 +41,23 @@ program define rwrlite, eclass
 	local ATE "e(`r(ATEtype)')"
 			
 	type_text , mreg(`mreg') lvar(`lvar') cvar(`cvars')	
-	
-	if ("`saving'" != "") {
-	
-		bootstrap CDE=e(CDE) `r(NDEtype)'=`NDE' `r(NIEtype)'=`NIE' `r(ATEtype)'=`ATE', force ///
-			reps(`reps') strata(`strata') cluster(`cluster') level(`level') `seed' ///
-			saving(`saving', replace) noheader notable: ///
-			rwrlitebs `varlist' if `touse' [`weight' `exp'], dvar(`dvar') mvar(`mvar') d(`d') dstar(`dstar') ///
-			m(`m') cvar(`cvars') cat(`cat') `cxd' `cxm' `lxm' `nointeraction'
-		}
-	
-	if ("`saving'" == "") {
-	
-		bootstrap CDE=e(CDE) `r(NDEtype)'=`NDE' `r(NIEtype)'=`NIE' `r(ATEtype)'=`ATE', force ///
-			reps(`reps') strata(`strata') cluster(`cluster') level(`level') `seed' ///
-			noheader notable: ///
-			rwrlitebs `varlist' if `touse' [`weight' `exp'], dvar(`dvar') mvar(`mvar') d(`d') dstar(`dstar') ///
-			m(`m') cvar(`cvars') cat(`cat') `cxd' `cxm' `lxm' `nointeraction'
-		}
+
+	if ("`detail'" != "") {		
+		rwrlitebs `varlist' if `touse' [`weight' `exp'], ///
+			dvar(`dvar') mvar(`mvar') d(`d') dstar(`dstar') m(`m') ///
+			cvar(`cvars') cat(`cat') `cxd' `cxm' `lxm' `nointeraction'
+	}
+		
+	bootstrap ///
+		CDE=e(CDE) ///
+		`r(NDEtype)'=`NDE' ///
+		`r(NIEtype)'=`NIE' ///
+		`r(ATEtype)'=`ATE', ///
+			force `options' noheader notable: ///
+				rwrlitebs `varlist' if `touse' [`weight' `exp'], ///
+					dvar(`dvar') mvar(`mvar') d(`d') dstar(`dstar') m(`m') ///
+					cvar(`cvars') cat(`cat') `cxd' `cxm' `lxm' `nointeraction'
+
 		
 	estat bootstrap, p noheader
 
@@ -75,19 +70,15 @@ program define rwrlite, eclass
 	di as txt "{p2col 1 `CDE_col' `CDE_col' 0: `r(ATEtext)'}{p_end}"
 				
 	ereturn local cmdline `"rwrlite `0'"'
-	
-	if ("`detail'" != "") {		
-		rwrlitebs `varlist' if `touse' [`weight' `exp'], dvar(`dvar') mvar(`mvar') d(`d') dstar(`dstar') ///
-			m(`m') cvar(`cvars') cat(`cat') `cxd' `cxm' `lxm' `nointeraction'
-		}
 
 end
 
 
-
 capture program drop type_text
 program type_text, rclass
+
     version 14
+	
     syntax [varlist(default=none)] [, mreg(string) lvar(string) cvar(string) ]
 
 		* regress
@@ -119,6 +110,7 @@ program type_text, rclass
 		return local NIEtext `NIEtext'
 		return local ATEtype `ATEtype'
 		return local ATEtext `ATEtext'
+		
 end
 
 
