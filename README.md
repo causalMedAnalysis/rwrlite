@@ -1,4 +1,4 @@
-# rwrlite: A Stata Module to Perform Causal Mediation Analysis Using Regression-With-Residuals (Lite Version)
+# rwrlite: A Stata Module for Causal Mediation Analysis Using Regression-With-Residuals (Lite Version)
 
 `rwrlite` is a streamlined version of the `rwrmed` module for performing causal mediation analysis using regression-with-residuals. It simplifies and omit some functionalities for ease of use and focuses on essential computations.
 
@@ -36,6 +36,8 @@ rwrlite depvar lvars, dvar(varname) mvar(varname) d(#) dstar(#) m(#) [options]
 2. A model for the outcome conditional on treatment, the mediator, the baseline covariates after centering them around their sample means, and any exposure-induced covariates after residualizing them with respect to the treatment and baseline covariates.
 
 These models allow for the estimation of controlled direct effects, interventional direct effects, interventional indirect effects, and the overall effect. `rwrlite` computes inferential statistics using the nonparametric bootstrap.
+
+`rwrlite` allows pweights, but it does not internally rescale them for use with the bootstrap. If using weights from a complex sample design that require rescaling to produce valid boostrap estimates, the user must be sure to appropriately specify the `strata`, `cluster`, and `size` options from the `bootstrap` command so that Nc-1 clusters are sampled within from each stratum, where Nc denotes the number of clusters per stratum. Failure to properly adjust the bootstrap sampling to account for a complex sample design that requires `pweights` could lead to invalid inferential statistics.
 
 ## Examples
 
