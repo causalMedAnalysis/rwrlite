@@ -49,10 +49,10 @@ program define rwrlite, eclass
 	}
 		
 	bootstrap ///
-		CDE=e(CDE) ///
+		`r(ATEtype)'=`ATE' ///
 		`r(NDEtype)'=`NDE' ///
 		`r(NIEtype)'=`NIE' ///
-		`r(ATEtype)'=`ATE', ///
+		CDE=e(CDE), ///
 			force `options' noheader notable: ///
 				rwrlitebs `varlist' if `touse' [`weight' `exp'], ///
 					dvar(`dvar') mvar(`mvar') d(`d') dstar(`dstar') m(`m') ///
