@@ -219,9 +219,9 @@ program define rwrlitebs, eclass
 				
 				type_text , mreg(`mreg')
 				ereturn scalar CDE = (treatO + interY * `m') * (`d'-`dstar')
-				ereturn scalar `r(NDEtype)' = (treatO + interY * consM + treatM * `dstar') * (`d'-`dstar')
+				ereturn scalar `r(NDEtype)' = (treatO + interY * (consM + treatM * `dstar')) * (`d'-`dstar')
 				ereturn scalar `r(NIEtype)' = treatM * (medO + interY * `d') * (`d'-`dstar')
-				ereturn scalar `r(ATEtype)' = ((treatO + interY * consM + treatM * `dstar') * (`d'-`dstar')) + (treatM * (medO + interY * `d') * (`d'-`dstar'))
+				ereturn scalar `r(ATEtype)' = ((treatO + interY * (consM + treatM * `dstar')) * (`d'-`dstar')) + (treatM * (medO + interY * `d') * (`d'-`dstar'))
 							
 			} // end with interaction 
 		} // end mreg == regress
