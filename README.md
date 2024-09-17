@@ -1,4 +1,4 @@
-# rwrlite: Causal Mediation Analysis Using Regression-With-Residuals (Lite Version)
+# rwrlite: A Stata Module to Perform Causal Mediation Analysis Using Regression-With-Residuals (Lite Version)
 
 `rwrlite` is a streamlined version of the `rwrmed` module for performing causal mediation analysis using regression-with-residuals. It simplifies and omit some functionalities for ease of use and focuses on essential computations.
 
@@ -26,12 +26,8 @@ rwrlite depvar lvars, dvar(varname) mvar(varname) d(#) dstar(#) m(#) [options]
 - `cxd`: Includes treatment-covariate interactions in all models.
 - `cxm`: Includes mediator-covariate interactions in the outcome model.
 - `lxm`: Includes mediator-posttreatment interactions in the outcome model.
-- `reps(integer)`: Number of bootstrap replications (default is 200).
-- `strata(varname)`: Identifies resampling strata.
-- `cluster(varname)`: Identifies resampling clusters.
-- `level(cilevel)`: Confidence level for bootstrap confidence intervals (default is 95%).
-- `seed(passthru)`: Seed for bootstrap resampling.
 - `detail`: Prints the fitted models in addition to the effect estimates.
+- `bootstrap_options`: All `bootstrap` options are available.
 
 ## Description
 
@@ -39,7 +35,7 @@ rwrlite depvar lvars, dvar(varname) mvar(varname) d(#) dstar(#) m(#) [options]
 1. A model for the mediator conditional on treatment and baseline covariates, centered around their sample means.
 2. A model for the outcome conditional on treatment, the mediator, the baseline covariates after centering them around their sample means, and any exposure-induced covariates after residualizing them with respect to the treatment and baseline covariates.
 
-These models allow for the estimation of controlled direct effects, interventional direct effects, interventional indirect effects, and the overall effect. `rwrlite` accommodates treatment-induced confounders.
+These models allow for the estimation of controlled direct effects, interventional direct effects, interventional indirect effects, and the overall effect. `rwrlite` computes inferential statistics using the nonparametric bootstrap.
 
 ## Examples
 
@@ -48,13 +44,13 @@ These models allow for the estimation of controlled direct effects, intervention
 use nlsy.dta
 
 // Default settings with no interaction between treatment and mediator
-rwrlite std_cesd_age40 ever_unemp_age3539, dvar(att22) mvar(log_faminc_adj_age3539) cvars(female black hispan paredu parprof parinc_prank famsize afqt3) d(1) dstar(0) nointer reps(200)
+rwrlite std_cesd_age40 ever_unemp_age3539, dvar(att22) mvar(log_faminc_adj_age3539) cvars(female black hispan paredu parprof parinc_prank famsize afqt3) d(1) dstar(0) nointer
 
-// Including treatment-mediator interaction
-rwrlite std_cesd_age40 ever_unemp_age3539, dvar(att22) mvar(log_faminc_adj_age3539) cvars(female black hispan paredu parprof parinc_prank famsize afqt3) d(1) dstar(0) reps(200)
+// Including treatment-mediator interaction and 1000 bootstrap replications
+rwrlite std_cesd_age40 ever_unemp_age3539, dvar(att22) mvar(log_faminc_adj_age3539) cvars(female black hispan paredu parprof parinc_prank famsize afqt3) d(1) dstar(0) reps(1000)
 
-// Including all two-way interactions
-rwrlite std_cesd_age40 ever_unemp_age3539, dvar(att22) mvar(log_faminc_adj_age3539) cvars(female black hispan paredu parprof parinc_prank famsize afqt3) d(1) dstar(0) cxd cxm lxm reps(200)
+// Including all two-way interactions and 1000 bootstrap replications
+rwrlite std_cesd_age40 ever_unemp_age3539, dvar(att22) mvar(log_faminc_adj_age3539) cvars(female black hispan paredu parprof parinc_prank famsize afqt3) d(1) dstar(0) cxd cxm lxm reps(1000)
 ```
 
 ## Saved Results
@@ -84,4 +80,4 @@ Email: [wodtke@uchicago.edu](mailto:wodtke@uchicago.edu)
 
 ## Acknowledgments
 
-Special thanks to Ariel Linden for developing `rwrmed`, upon which `rwrlite` is based.
+Special thanks to Ariel Linden and Chuck Huber for developing `rwrmed`, upon which `rwrlite` is based.
